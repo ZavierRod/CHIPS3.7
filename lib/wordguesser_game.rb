@@ -13,7 +13,7 @@ class WordGuesserGame
 
 
   def check_win_or_lose
-    if @guesses.length == @word.length
+    if word_with_guesses == @word
       return :win
     end
     if @wrong_guesses.length > 6
@@ -37,10 +37,7 @@ class WordGuesserGame
     return answer
   end
 
-
-
-  def guess(user_guess)
-    # Raise error if not a valid character
+ def invalid?(user_guess)
     if user_guess.nil? 
       raise ArgumentError, "Guess can't be nil"
     end
@@ -50,6 +47,12 @@ class WordGuesserGame
     if !user_guess.match?(/\A\p{Alpha}\z/) 
       raise ArgumentError, "Guess has to be an alphabetic letter"
     end
+  end
+
+
+  def guess(user_guess)
+    # Raise error if not a valid character
+    invalid?(user_guess)
 
     already_guessed = false
     user_guess = user_guess.downcase
